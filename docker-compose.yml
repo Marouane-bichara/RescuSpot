@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  # ---------------------------------------------------
+  # MYSQL
+  # ---------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: rescuespot-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: rescuespot
+      MYSQL_USER: rescuespot_user
+      MYSQL_PASSWORD: rescuespot_password
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - rescuespot-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------
+  # PHPMYADMIN
+  # ---------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: rescuespot-phpmyadmin
+    restart: always
+    ports:
+      - "8089:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - rescuespot-network
+
+  # ---------------------------------------------------
+  # SPRING BOOT APP
+  # ---------------------------------------------------
+  app:
+    build: .
+    container_name: rescuespot-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/rescuespot?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: rescuespot_user
+      SPRING_DATASOURCE_PASSWORD: rescuespot_password
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - rescuespot-network
+
+volumes:
+  mysql_data:
+
+networks:
+  rescuespot-network:
+    driver: bridge
