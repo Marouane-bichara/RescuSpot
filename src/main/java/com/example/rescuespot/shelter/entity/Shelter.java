@@ -52,10 +52,6 @@ public class Shelter {
     @Column
     private boolean verified;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_shelter", nullable = false)
-    private Shelter shelter;
-
 
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Adoption> adoptions = new ArrayList<>();

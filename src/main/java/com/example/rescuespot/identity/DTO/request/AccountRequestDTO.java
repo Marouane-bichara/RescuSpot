@@ -9,10 +9,7 @@ import lombok.*;
 @Setter
 @Builder
 public class AccountRequestDTO {
-
-    private String username;
     private String email;
     private String password;
-    private String profilePhoto;
-
+    private String username;
 }

@@ -1,10 +1,14 @@
 package com.example.rescuespot.animal.DTO.response;
 
 
+import com.example.rescuespot.adoption.DTO.response.AdoptionResponseDTO;
 import com.example.rescuespot.animal.entity.enumAnimal.AnimalBreed;
 import com.example.rescuespot.animal.entity.enumAnimal.AnimalGender;
 import com.example.rescuespot.animal.entity.enumAnimal.AnimalSpecies;
+import com.example.rescuespot.shelter.DTO.response.ShelterResponseDTO;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +31,7 @@ public class AnimalResponseDTO {
 
     private String description;
 
-    private Long shelterId;
-    private String shelterName;
+    private ShelterResponseDTO shelter;
+
+    private List<AdoptionResponseDTO> adoptions;
 }

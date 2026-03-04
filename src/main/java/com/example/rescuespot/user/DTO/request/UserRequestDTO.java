@@ -15,10 +15,5 @@ public class UserRequestDTO {
     private AccountRequestDTO account;
     private String firstName;
     private String lastName;
-    private String bio;
-    private String linkedin;
-    private String instagram;
-    private String facebook;
-    private String twitter;
-    private String location;
+
 }

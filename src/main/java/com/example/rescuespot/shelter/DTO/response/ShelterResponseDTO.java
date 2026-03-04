@@ -1,6 +1,10 @@
 package com.example.rescuespot.shelter.DTO.response;
 
+import com.example.rescuespot.animal.DTO.response.AnimalResponseDTO;
+import com.example.rescuespot.identity.DTO.response.AccountResponseDTO;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -8,6 +12,8 @@ import lombok.*;
 @Setter
 @Builder
 public class ShelterResponseDTO {
+
+    private AccountResponseDTO account;
 
     private Long idShelter;
 
@@ -31,6 +37,6 @@ public class ShelterResponseDTO {
 
     private String profilePhoto;
 
-//    private List<AnimalResponseDTO> animals;
+    private List<AnimalResponseDTO> animals;
 
 }

@@ -1,5 +1,6 @@
 package com.example.rescuespot.user.service;
 
+import com.example.rescuespot.identity.entity.Account;
 import com.example.rescuespot.user.DTO.request.UserRequestDTO;
 import com.example.rescuespot.user.DTO.response.UserResponseDTO;
 import com.example.rescuespot.user.entity.User;
@@ -7,7 +8,7 @@ import com.example.rescuespot.user.mapper.IUserMapper;
 import com.example.rescuespot.user.repository.UserRepository;
 import com.example.rescuespot.user.service.intrfaces.IUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final IUserMapper userMapper;
 
     @Override
@@ -26,14 +27,17 @@ public class UserService implements IUserService {
 
         User userEntity = userMapper.toEntity(userRequest);
 
-        if (userEntity.getAccount() != null &&
-                userEntity.getAccount().getPassword() != null) {
+        Account account = userEntity.getAccount();
 
-            userEntity.getAccount().setPassword(
-                    bCryptPasswordEncoder.encode(
-                            userEntity.getAccount().getPassword()
-                    )
-            );
+        if (account != null) {
+
+            if (account.getPassword() != null) {
+                account.setPassword(
+                        passwordEncoder.encode(account.getPassword())
+                );
+            }
+
+            account.setUser(userEntity);
         }
 
         User savedUser = userRepository.save(userEntity);
@@ -71,12 +75,6 @@ public class UserService implements IUserService {
 
         existingUser.setFirstName(userRequest.getFirstName());
         existingUser.setLastName(userRequest.getLastName());
-        existingUser.setBio(userRequest.getBio());
-        existingUser.setLinkedin(userRequest.getLinkedin());
-        existingUser.setInstagram(userRequest.getInstagram());
-        existingUser.setFacebook(userRequest.getFacebook());
-        existingUser.setTwitter(userRequest.getTwitter());
-        existingUser.setLocation(userRequest.getLocation());
 
         User updatedUser = userRepository.save(existingUser);
 

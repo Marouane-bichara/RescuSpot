@@ -1,5 +1,6 @@
 package com.example.rescuespot.shelter.DTO.request;
 
+import com.example.rescuespot.identity.DTO.request.AccountRequestDTO;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,7 +10,7 @@ import lombok.*;
 @Builder
 public class ShelterRequestDTO {
 
-    private Long accountId;
+    private AccountRequestDTO account;
 
     private String name;
 

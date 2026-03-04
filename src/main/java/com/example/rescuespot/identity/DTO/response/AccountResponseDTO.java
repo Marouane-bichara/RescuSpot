@@ -14,7 +14,6 @@ import java.util.Date;
 public class AccountResponseDTO {
     private Long idAccount;
     private String email;
-    private String password;
     private String username;
     private String profilePhoto;
     private Role role;
