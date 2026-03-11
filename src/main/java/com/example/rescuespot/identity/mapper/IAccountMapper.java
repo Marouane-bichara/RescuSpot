@@ -2,6 +2,7 @@ package com.example.rescuespot.identity.mapper;
 
 
 import com.example.rescuespot.identity.DTO.request.AccountRequestDTO;
+import com.example.rescuespot.identity.DTO.request.UpdateAccountRequestDTO;
 import com.example.rescuespot.identity.DTO.response.AccountResponseDTO;
 import com.example.rescuespot.identity.entity.Account;
 import org.mapstruct.Mapper;
@@ -11,4 +12,5 @@ public interface IAccountMapper {
 
     AccountResponseDTO toResponse(Account account);
     Account toEntity(AccountRequestDTO dto);
+    Account toResponseUpdate(UpdateAccountRequestDTO dto);
 }

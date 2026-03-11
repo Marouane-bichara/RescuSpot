@@ -1,6 +1,7 @@
 package com.example.rescuespot.user.mapper;
 
 import com.example.rescuespot.report.mapper.IReportMapper;
+import com.example.rescuespot.user.DTO.request.UpdateUserRequestDTO;
 import com.example.rescuespot.user.DTO.request.UserRequestDTO;
 import com.example.rescuespot.user.DTO.response.UserResponseDTO;
 import com.example.rescuespot.user.entity.User;
@@ -21,4 +22,6 @@ public interface IUserMapper {
     UserResponseDTO toResponse(User user);
 
     User toEntity(UserRequestDTO requestDTO);
+
+    User toEntityUpdate(UpdateUserRequestDTO  requestDTO);
 }

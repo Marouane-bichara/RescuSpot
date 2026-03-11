@@ -1,5 +1,6 @@
 package com.example.rescuespot.user.controller;
 
+import com.example.rescuespot.user.DTO.request.UpdateUserRequestDTO;
 import com.example.rescuespot.user.DTO.request.UserRequestDTO;
 import com.example.rescuespot.user.DTO.response.UserResponseDTO;
 import com.example.rescuespot.user.service.intrfaces.IUserService;
@@ -43,7 +44,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Long id,
-            @RequestBody UserRequestDTO userRequest
+            @RequestBody UpdateUserRequestDTO userRequest
     ) {
         UserResponseDTO updatedUser = userService.updateUser(id, userRequest);
         return ResponseEntity.ok(updatedUser);

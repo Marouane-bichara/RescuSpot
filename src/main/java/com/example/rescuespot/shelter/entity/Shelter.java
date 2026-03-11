@@ -3,6 +3,7 @@ package com.example.rescuespot.shelter.entity;
 
 import com.example.rescuespot.adoption.entity.Adoption;
 import com.example.rescuespot.identity.entity.Account;
+import com.example.rescuespot.report.entity.Report;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,4 +56,7 @@ public class Shelter {
 
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Adoption> adoptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rescuerShelter")
+    private List<Report> rescuedReports = new ArrayList<>();
 }

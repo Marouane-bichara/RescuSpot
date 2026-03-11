@@ -3,6 +3,7 @@ package com.example.rescuespot.report.entity;
 
 import com.example.rescuespot.report.entity.enumReport.HealthAnimalStatus;
 import com.example.rescuespot.report.entity.enumReport.ReportStatus;
+import com.example.rescuespot.shelter.entity.Shelter;
 import com.example.rescuespot.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,11 @@ public class Report {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rescuer_shelter_id")
+    private Shelter rescuerShelter;
+
+
     @Column
     private String location;
 
@@ -50,7 +56,12 @@ public class Report {
     @Column
     private Date reportedAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "rescued_at")
+    private Date rescuedAt;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "report_status")
     private ReportStatus reportStatus =  ReportStatus.PENDING;
+
 }
