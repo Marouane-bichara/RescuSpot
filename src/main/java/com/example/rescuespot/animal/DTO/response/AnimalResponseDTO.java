@@ -25,6 +25,9 @@ public class AnimalResponseDTO {
 
     private AnimalBreed breed;
 
+    private String picture;
+
+
     private AnimalGender gender;
 
     private Integer age;

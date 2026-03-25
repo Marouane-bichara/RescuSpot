@@ -5,6 +5,7 @@ import com.example.rescuespot.animal.DTO.response.AnimalResponseDTO;
 import com.example.rescuespot.animal.service.Impl.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @PostMapping
+    @PreAuthorize("hasRole('SHELTER')")
     public ResponseEntity<AnimalResponseDTO> createAnimal(
             @RequestBody AnimalRequestDTO request
     ) {
@@ -28,6 +30,7 @@ public class AnimalController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SHELTER' , 'USER' , 'ADMIN')")
     public ResponseEntity<List<AnimalResponseDTO>> getAllAnimals() {
 
         List<AnimalResponseDTO> animals = animalService.getAllAnimals();
@@ -37,6 +40,7 @@ public class AnimalController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SHELTER' , 'USER')")
     public ResponseEntity<AnimalResponseDTO> getAnimalById(
             @PathVariable Long id
     ) {
@@ -47,6 +51,7 @@ public class AnimalController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SHELTER')")
     public ResponseEntity<AnimalResponseDTO> updateAnimal(
             @PathVariable Long id,
             @RequestBody AnimalRequestDTO request
@@ -59,6 +64,7 @@ public class AnimalController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SHELTER' , 'ADMIN')")
     public ResponseEntity<String> deleteAnimal(
             @PathVariable Long id
     ) {

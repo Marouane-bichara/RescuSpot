@@ -20,6 +20,8 @@ public class ConversationResponseDTO {
     private Long receiverId;
     private String receiverUsername;
 
+
+
     private ConversationType type;
 
     private String relatedEntityType;

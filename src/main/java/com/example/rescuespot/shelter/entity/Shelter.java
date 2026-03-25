@@ -50,6 +50,7 @@ public class Shelter {
     @Column
     private String address;
 
+
     @Column
     private boolean verified;
 

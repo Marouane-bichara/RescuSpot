@@ -36,9 +36,6 @@ public class UserResponseDTO {
 
     private String location;
 
-    private int followersCount;
-
-    private int followingCount;
 
     private List<ReportResponseDTO> reports;
 

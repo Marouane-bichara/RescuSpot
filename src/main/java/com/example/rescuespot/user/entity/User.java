@@ -55,11 +55,6 @@ public class User {
     @Column
     private String location;
 
-    @Column
-    private int followersCount;
-
-    @Column
-    private int followingCount;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reports = new ArrayList<>();

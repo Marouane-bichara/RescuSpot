@@ -4,6 +4,7 @@ package com.example.rescuespot.Message.controller;
 import com.example.rescuespot.Message.DTO.MessageRequestDTO;
 import com.example.rescuespot.Message.DTO.MessageResponseDTO;
 import com.example.rescuespot.Message.service.MessageService;
+import com.example.rescuespot.conversation.DTO.ConversationResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,11 @@ public class MessageRestController {
                 messageService.getConversationMessages(conversationId);
 
         return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/user/{userId}/conversations")
+    public ResponseEntity<List<ConversationResponseDTO>> getMyConversations(@PathVariable Long userId) {
+        List<ConversationResponseDTO> inbox = messageService.getUserConversations(userId);
+        return ResponseEntity.ok(inbox);
     }
 }

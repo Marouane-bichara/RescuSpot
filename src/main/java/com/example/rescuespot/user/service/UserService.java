@@ -4,6 +4,7 @@ import com.example.rescuespot.exeptions.email.EmailNotFoundExeption;
 import com.example.rescuespot.exeptions.password.PasswordIsRequiredExeption;
 import com.example.rescuespot.exeptions.user.UserNotFoundExeption;
 import com.example.rescuespot.identity.entity.Account;
+import com.example.rescuespot.identity.entity.roles.Role;
 import com.example.rescuespot.user.DTO.request.UpdateUserRequestDTO;
 import com.example.rescuespot.user.DTO.request.UserRequestDTO;
 import com.example.rescuespot.user.DTO.response.UserResponseDTO;
@@ -56,7 +57,7 @@ public class UserService implements IUserService {
             if(account.getPassword() == null){
                 throw new PasswordIsRequiredExeption("Password is required");
             }
-
+            account.setRole(Role.USER);
             account.setUser(userEntity);
         }
 

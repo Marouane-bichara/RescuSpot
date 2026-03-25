@@ -6,6 +6,7 @@ import com.example.rescuespot.adoption.DTO.response.AdoptionResponseDTO;
 import com.example.rescuespot.adoption.service.IAdoptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class AdoptionController {
     private final IAdoptionService adoptionService;
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<AdoptionResponseDTO> createAdoption(
             @RequestBody AdoptionRequestDTO request
     ) {
@@ -28,6 +30,7 @@ public class AdoptionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER','ADMIN' , 'SHELTER')")
     public ResponseEntity<List<AdoptionResponseDTO>> getAllAdoptions() {
 
         return ResponseEntity.ok(adoptionService.getAllAdoptions());
@@ -35,6 +38,7 @@ public class AdoptionController {
 
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER','ADMIN' , 'SHELTER')")
     public ResponseEntity<AdoptionResponseDTO> getAdoptionById(
             @PathVariable Long id
     ) {
@@ -43,6 +47,7 @@ public class AdoptionController {
     }
 
     @PatchMapping("/{id}/review")
+    @PreAuthorize("hasRole('SHELTER')")
     public ResponseEntity<AdoptionResponseDTO> reviewAdoption(
             @PathVariable Long id,
             @RequestBody AdoptionDecisionDTO decision
@@ -55,6 +60,7 @@ public class AdoptionController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> deleteAdoption(
             @PathVariable Long id
     ) {

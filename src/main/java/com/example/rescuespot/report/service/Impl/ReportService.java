@@ -1,14 +1,19 @@
 package com.example.rescuespot.report.service.Impl;
 
 import com.example.rescuespot.report.DTO.request.ReportRequestDTO;
+import com.example.rescuespot.report.DTO.response.ReportRescuedDTO;
 import com.example.rescuespot.report.DTO.response.ReportResponseDTO;
+import com.example.rescuespot.report.DTO.response.ReportStatusUpdateDTO;
 import com.example.rescuespot.report.entity.Report;
 import com.example.rescuespot.report.entity.enumReport.ReportStatus;
 import com.example.rescuespot.report.mapper.IReportMapper;
 import com.example.rescuespot.report.repository.IReportRepository;
+import com.example.rescuespot.shelter.entity.Shelter;
+import com.example.rescuespot.shelter.repository.IShalterRepository;
 import com.example.rescuespot.user.entity.User;
 import com.example.rescuespot.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,6 +27,8 @@ public class ReportService {
     private final IReportRepository reportRepository;
     private final UserRepository userRepository;
     private final IReportMapper reportMapper;
+    private final IShalterRepository shelterRepository;
+
 
     public ReportResponseDTO createReport(ReportRequestDTO dto) {
 
@@ -62,4 +69,28 @@ public class ReportService {
 
         reportRepository.delete(report);
     }
+    public ReportResponseDTO updateReportStatus(Long reportId, ReportStatusUpdateDTO dto) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new RuntimeException("Report not found"));
+        System.out.println(dto.getShelterId());
+        Shelter shelter = shelterRepository.findById(dto.getShelterId())
+                .orElseThrow(() -> new RuntimeException("Shelter not found"));
+
+        System.out.println(dto.getNewStatus());
+
+        report.setRescuerShelter(shelter);
+
+        report.setReportStatus(dto.getNewStatus());
+
+        if (dto.getNewStatus() == ReportStatus.RESOLVED) {
+            report.setRescuedAt(new Date());
+        }
+
+        Report saved = reportRepository.save(report);
+
+        return reportMapper.toResponse(saved);
+    }
+
+
+
 }

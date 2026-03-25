@@ -5,6 +5,7 @@ import com.example.rescuespot.shelter.DTO.response.ShelterResponseDTO;
 import com.example.rescuespot.shelter.service.IShalterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ShelterController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SHELTER' , 'USER' , 'ADMIN')")
     public ResponseEntity<List<ShelterResponseDTO>> getAllShelters() {
 
         List<ShelterResponseDTO> shelters = shelterService.getAllShelters();
@@ -37,6 +39,7 @@ public class ShelterController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SHELTER' , 'USER' , 'ADMIN')")
     public ResponseEntity<ShelterResponseDTO> getShelterById(
             @PathVariable Long id
     ) {
@@ -48,6 +51,7 @@ public class ShelterController {
 
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SHELTER')")
     public ResponseEntity<ShelterResponseDTO> updateShelter(
             @PathVariable Long id,
             @RequestBody ShelterRequestDTO request
@@ -60,6 +64,7 @@ public class ShelterController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SHELTER' , 'USER')")
     public ResponseEntity<String> deleteShelter(
             @PathVariable Long id
     ) {
@@ -68,5 +73,18 @@ public class ShelterController {
 
         return ResponseEntity.ok("Shelter deleted successfully");
     }
+
+    @GetMapping("/{id}/getShelterByAccount")
+
+    public ResponseEntity<Integer> getShelterByAccount(
+            @PathVariable Long id
+    ) {
+
+         int value  = shelterService.getShelterByAccountId(id);
+
+        return ResponseEntity.ok(value);
+    }
+
+
 
 }

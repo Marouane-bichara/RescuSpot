@@ -16,4 +16,6 @@ public interface IShalterService {
     ShelterResponseDTO updateShelter(Long id, ShelterRequestDTO request);
 
     void deleteShelter(Long id);
+
+    int getShelterByAccountId(Long accountId);
 }

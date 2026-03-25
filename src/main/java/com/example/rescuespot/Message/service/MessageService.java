@@ -5,6 +5,7 @@ import com.example.rescuespot.Message.DTO.MessageResponseDTO;
 import com.example.rescuespot.Message.entity.Message;
 import com.example.rescuespot.Message.mapper.MessageMapper;
 import com.example.rescuespot.Message.repository.IMessageRepository;
+import com.example.rescuespot.conversation.DTO.ConversationResponseDTO;
 import com.example.rescuespot.conversation.entity.Conversation;
 import com.example.rescuespot.conversation.entity.ConversationEnums.ConversationType;
 import com.example.rescuespot.conversation.repository.IConversationRepository;
@@ -64,5 +65,26 @@ public class MessageService {
                 .stream()
                 .map(messageMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<ConversationResponseDTO> getUserConversations(Long userId) {
+        List<Conversation> conversations = conversationRepository
+                .findAllBySender_IdAccountOrReceiver_IdAccount(userId, userId);
+
+        return conversations.stream().map(conv -> {
+            ConversationResponseDTO dto = new ConversationResponseDTO();
+            dto.setIdConversation(conv.getIdConversation());
+
+            Account otherAccount = conv.getSender().getIdAccount().equals(userId)
+                    ? conv.getReceiver()
+                    : conv.getSender();
+
+            dto.setReceiverId(otherAccount.getIdAccount());
+            dto.setReceiverUsername(otherAccount.getUsername());
+
+
+            dto.setType(conv.getType());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

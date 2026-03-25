@@ -44,6 +44,14 @@ public class AdoptionService implements IAdoptionService {
         Shelter shelter = shelterRepository.findById(request.getShelterId())
                 .orElseThrow(() -> new RuntimeException("Shelter not found"));
 
+        Adoption adoptionPrev = adoptionRepository.getAdoptionByAnimalAndUser(animal, user);
+
+        if(adoptionPrev != null)
+        {
+            throw new RuntimeException("Adoption already exists");
+        }
+
+
         Adoption adoption = adoptionMapper.toEntity(request);
 
         adoption.setAnimal(animal);

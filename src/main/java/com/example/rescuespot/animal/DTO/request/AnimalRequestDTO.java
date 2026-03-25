@@ -18,6 +18,8 @@ public class AnimalRequestDTO {
 
     private AnimalBreed breed;
 
+    private String picture;
+
     private AnimalGender gender;
 
     private Integer age;

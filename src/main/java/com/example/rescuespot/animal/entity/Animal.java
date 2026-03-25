@@ -43,6 +43,9 @@ public class Animal {
     @Column(name = "gender")
     private AnimalGender gender;
 
+    @Column(name = "picture")
+    private String picture;
+
     @Column(name = "age")
     private Integer age;
 
